@@ -9,8 +9,7 @@ public class PriceHandler extends AbstractLoggingActor {
     public Receive createReceive() {
         return receiveBuilder()
                 .match(String.class, s-> {
-                   // System.out.println("Price handler  "+ Thread.currentThread().getName());
-                    //simulate checking
+
                     Random random = new Random();
                     int checkTime = Math.abs(random.nextInt())%400 +100;
                     Thread.sleep(checkTime);

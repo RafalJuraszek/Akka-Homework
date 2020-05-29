@@ -13,24 +13,23 @@ class InternalPriceResponse implements Serializable, NotInfluenceReceiveTimeout 
         this.price = price;
     }
 }
+
 class PriceResponse implements Serializable {
     Integer price;
+    Integer numberOfQuestions;
 
 
-    public PriceResponse(Integer price) {
-
+    public PriceResponse(Integer price, Integer numberOfQuestions) {
+        this.numberOfQuestions = numberOfQuestions;
         this.price = price;
     }
+
     public PriceResponse() {
 
     }
 }
-class PriceNotAvailableResponse implements Serializable {
 
-    public PriceNotAvailableResponse() {
 
-    }
-}
 class InternalNumberOfQuestions implements Serializable, NotInfluenceReceiveTimeout {
     int number;
 
@@ -38,10 +37,5 @@ class InternalNumberOfQuestions implements Serializable, NotInfluenceReceiveTime
         this.number = number;
     }
 }
-class NumberOfQuestionsResponse implements Serializable {
-    int number;
 
-    public NumberOfQuestionsResponse(int number) {
-        this.number = number;
-    }
-}
+

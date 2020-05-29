@@ -50,13 +50,9 @@ public class Client extends AbstractLoggingActor {
 
                 })
                 .match(PriceResponse.class, response -> {
-                    System.out.println("Price: "+response.price);
-                })
-                .match(PriceNotAvailableResponse.class, response -> {
-                    System.out.println("Price not available for this product.");
-                })
-                .match(NumberOfQuestionsResponse.class, response -> {
-                    System.out.println("Number of questions: "+ response.number);
+                    String numberCommmunicate = response.numberOfQuestions == null ? " No info for number of questions" : " Number of questions: " +response.numberOfQuestions;
+                    String priceCommunicate = response.price == null ? "Price not available for this product" : "Price: "+response.price;
+                    System.out.println(priceCommunicate +numberCommmunicate);
                 })
                 .matchAny(o -> log.info("received unknown message"))
                 .build();

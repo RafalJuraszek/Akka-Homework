@@ -29,7 +29,7 @@ public class PriceManager extends AbstractLoggingActor {
                 .match(String.class, s -> {
                     context().setReceiveTimeout(Duration.apply(300, TimeUnit.MILLISECONDS));
                     client = getSender();
-                    //System.out.println("manager "+ Thread.currentThread().getName());
+
 
                     context().actorOf(Props.create(PriceHandler.class)).tell(s, getSelf());
                     context().actorOf(Props.create(PriceHandler.class)).tell(s, getSelf());
@@ -41,11 +41,10 @@ public class PriceManager extends AbstractLoggingActor {
                 .match(InternalNumberOfQuestions.class, response -> {
                     System.out.println("inside internal number");
                     numberOfQuestions = response.number;
-                    client.tell(new NumberOfQuestionsResponse(numberOfQuestions), getSelf());
+
                 })
                 .match(InternalPriceResponse.class, response -> {
-                    //System.out.println(response.price);
-                    //System.out.println("Response "+ Thread.currentThread().getName());
+
                     if(value1 == null)
                     {
                         value1 = response.price;
@@ -53,7 +52,7 @@ public class PriceManager extends AbstractLoggingActor {
                     else {
                         value2 = response.price;
                         Integer result = value1 >value2 ? value2 : value1;
-                        PriceResponse r = new PriceResponse(result);
+                        PriceResponse r = new PriceResponse(result, numberOfQuestions);
                         client.tell(r, getSelf());
                         context().setReceiveTimeout(Duration.Undefined());
                         context().stop(self());
@@ -70,7 +69,7 @@ public class PriceManager extends AbstractLoggingActor {
                     }
 
                     if(value1 == null && value2== null) {
-                        PriceNotAvailableResponse response = new PriceNotAvailableResponse();
+                        PriceResponse response = new PriceResponse(null, numberOfQuestions);
                         client.tell(response, getSelf());
                         System.out.println(client);
                     }
@@ -81,7 +80,7 @@ public class PriceManager extends AbstractLoggingActor {
                         else{
                             result = value1;
                         }
-                        PriceResponse response = new PriceResponse(result);
+                        PriceResponse response = new PriceResponse(result, numberOfQuestions);
                         client.tell(response, getSelf());
                     }
 

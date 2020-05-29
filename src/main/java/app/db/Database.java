@@ -44,13 +44,14 @@ public class Database{
 
     }
     public void insertOrReplace(String name, int number) throws SQLException {
-        PreparedStatement preparedStatement = c.prepareStatement("INSERT OR REPLACE INTO logs " +
-                "VALUES(?, ?)");
+
+        PreparedStatement preparedStatement = c.prepareStatement("INSERT INTO logs (name, number) " +
+                "VALUES(?, ?) ON CONFLICT(name) DO UPDATE SET number = number+1");
         preparedStatement.setString(1, name.toLowerCase());
         preparedStatement.setInt(2, number);
         preparedStatement.execute();
     }
-    public synchronized int findNumberByName(String name) throws SQLException {
+    public int findNumberByName(String name) throws SQLException {
         PreparedStatement preparedStatement = c.prepareStatement("SELECT number FROM logs WHERE name = ?");
         preparedStatement.setString(1, name.toLowerCase());
         ResultSet rs = preparedStatement.executeQuery();
@@ -72,18 +73,7 @@ public class Database{
             System.out.println(name+" "+ number );
         }
     }
-    public synchronized int  incrementAndGetNumber(String name) throws SQLException, InterruptedException {
-        int number = findNumberByName(name);
 
-        if (number > 0) {
-            insertOrReplace(name, number + 1);
-            return number+1;
-        } else {
-            insertOrReplace(name, 1);
-            return 1;
-
-        }
-    }
     public static void main(String[] args) throws SQLException {
         Database database = new Database();
        database.select();
