@@ -16,16 +16,16 @@ public class Client extends AbstractLoggingActor {
     private final String SERVER_PATH = "akka://server_system@127.0.0.1:2555/user/server";
 
     public static void main(String[] args) throws Exception {
-        // config
+
         File configFile = new File("client.conf");
         System.out.println(configFile.getAbsolutePath());
         Config config = ConfigFactory.parseFile(configFile);
 
-        // create actor system & actors
+
         final ActorSystem system = ActorSystem.create("client", config);
         final ActorRef local = system.actorOf(Props.create(Client.class), "client");
 
-        // interaction
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         while (true) {
@@ -45,7 +45,7 @@ public class Client extends AbstractLoggingActor {
         return receiveBuilder()
                 .match(String.class, s -> {
 
-                    System.out.println(s);
+
                     getContext().actorSelection(SERVER_PATH).tell(s, getSelf());
 
                 })

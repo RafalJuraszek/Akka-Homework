@@ -56,14 +56,14 @@ public class HttpServer extends AllDirectives {
 
         File configFile = new File("server.conf");
         Config config = ConfigFactory.parseFile(configFile);
-        ActorSystem system = ActorSystem.create("http_system", config);
+        ActorSystem system = ActorSystem.create("server_system", config);
 
 
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
 
 
-        ActorRef httpActor = system.actorOf(Props.create(Server.class), "httpActor");
+        ActorRef httpActor = system.actorOf(Props.create(Server.class), "server");
         HttpServer app = new HttpServer(httpActor, system, materializer);
 
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = app.routes().flow(system, materializer);
@@ -90,7 +90,7 @@ public class HttpServer extends AllDirectives {
                             .thenApply(obj -> (PriceResponse) obj);
 
 
-                        System.out.println(item);
+
             return onSuccess(price, (resp) -> {
 
                 String numberCommmunicate = resp.numberOfQuestions == null ? " No info for number of questions" : " Number of questions: " +resp.numberOfQuestions;

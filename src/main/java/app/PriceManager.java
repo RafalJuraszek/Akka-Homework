@@ -1,14 +1,14 @@
 package app;
 
-import akka.actor.AbstractLoggingActor;
-import akka.actor.ActorRef;
-import akka.actor.Props;
-import akka.actor.ReceiveTimeout;
+import akka.actor.*;
+import akka.japi.pf.DeciderBuilder;
 import app.db.Database;
 import scala.concurrent.duration.Duration;
 
 
 import java.util.concurrent.TimeUnit;
+
+import static akka.actor.SupervisorStrategy.resume;
 
 public class PriceManager extends AbstractLoggingActor {
 
@@ -39,7 +39,6 @@ public class PriceManager extends AbstractLoggingActor {
 
                 })
                 .match(InternalNumberOfQuestions.class, response -> {
-                    System.out.println("inside internal number");
                     numberOfQuestions = response.number;
 
                 })
@@ -87,5 +86,16 @@ public class PriceManager extends AbstractLoggingActor {
                     context().stop(self());
 
                 }).build();
+    }
+
+    @Override
+    public SupervisorStrategy supervisorStrategy()
+    {
+        return new OneForOneStrategy(
+                10,
+                java.time.Duration.ofSeconds(30),
+                DeciderBuilder.matchAny(any -> resume())
+                        .build()
+        );
     }
 }

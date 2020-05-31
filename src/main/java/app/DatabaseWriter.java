@@ -16,7 +16,6 @@ public class DatabaseWriter extends AbstractLoggingActor {
         return receiveBuilder()
                 .match(String.class, s -> {
                     database.insertOrReplace(s, 1);
-                    System.out.println("inside database writer");
                 }).build();
     }
 
