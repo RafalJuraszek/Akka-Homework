@@ -7,20 +7,17 @@ import akka.actor.Props;
 import akka.http.javadsl.ConnectHttp;
 import akka.http.javadsl.Http;
 import akka.http.javadsl.ServerBinding;
-import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
-import akka.http.javadsl.model.StatusCodes;
 import akka.http.javadsl.server.AllDirectives;
 import akka.http.javadsl.server.Route;
 import akka.pattern.PatternsCS;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
-import akka.util.Timeout;
+import app.responses.PriceResponse;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -32,9 +29,7 @@ import static akka.http.javadsl.server.PathMatchers.segment;
 
 import java.io.File;
 import java.time.Duration;
-import java.util.Optional;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 

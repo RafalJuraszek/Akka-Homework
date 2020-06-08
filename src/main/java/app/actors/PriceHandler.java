@@ -1,6 +1,7 @@
-package app;
+package app.actors;
 
 import akka.actor.AbstractLoggingActor;
+import app.responses.InternalPriceResponse;
 
 import java.util.Random;
 

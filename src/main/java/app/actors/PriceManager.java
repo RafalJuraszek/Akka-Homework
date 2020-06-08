@@ -1,8 +1,11 @@
-package app;
+package app.actors;
 
 import akka.actor.*;
 import akka.japi.pf.DeciderBuilder;
 import app.db.Database;
+import app.responses.InternalNumberOfQuestions;
+import app.responses.InternalPriceResponse;
+import app.responses.PriceResponse;
 import scala.concurrent.duration.Duration;
 
 

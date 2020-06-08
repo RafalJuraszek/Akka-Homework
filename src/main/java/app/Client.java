@@ -3,6 +3,7 @@ package app;
 import akka.actor.*;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import app.responses.PriceResponse;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 

@@ -5,6 +5,7 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.DeciderBuilder;
 import app.db.Database;
+import app.actors.PriceManager;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 

@@ -1,7 +1,5 @@
 package app.db;
 
-import akka.actor.AbstractLoggingActor;
-
 import java.sql.*;
 
 public class Database{
